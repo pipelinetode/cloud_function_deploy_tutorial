@@ -1,0 +1,38 @@
+name: news_api
+
+on:
+  
+  workflow_dispatch:
+  
+  push: 
+    branches: [ main ]
+    paths:
+    - "news_api**"
+    
+jobs:
+
+  build:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - uses: actions/checkout@v2
+      
+      - name: auth
+        uses: google-github-actions/auth@v1
+        with: 
+          credentials_json: ${{ secrets.GCP_SECRET }}
+          
+    
+      - name: Deploy
+        uses: google-github-actions/deploy-cloud-functions@v2
+        with: 
+          name: news_api
+          runtime: python38
+          project_id: ornate-reef-332816
+          event_trigger_type: providers/cloud.pubsub/eventTypes/topic.publish
+          event_trigger_resource: projects/ornate-reef-332816/topics/news_api
+          source_dir: ./news_api/
+          timeout: 540
+          memory_mb: 1024
