@@ -13,7 +13,7 @@ blob = bucket.blob(cfg.creds)
 
 key = blob.download_as_string()
 api_key = json.loads(key)
-api_key = api_key["key"]
+api_key = api_key["46482b33cb294064a4975f93edae7b4f"]
 
 logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
 
